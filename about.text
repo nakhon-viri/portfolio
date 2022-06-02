@@ -1,22 +1,46 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
+import Button from '../components/button'
+import { en, th } from '../locales/home'
+import { useRouter } from 'next/router'
+import React, { useState } from 'react'
+import Link from 'next/link'
 
 const Home: NextPage = () => {
-  return (
-    <div className="flex min-h-screen flex-col items-center justify-center py-2">
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
-        <h1 className="text-6xl font-bold">
-          Welcome to{' '}
-          <a className="text-blue-600" href="https://nextjs.org">
-            Next.js!
-          </a>
-        </h1>
+const router = useRouter()
+const [value, setValue] = useState('')
+const { locale, asPath } = router
+const t = locale === 'th' ? th : en
+console.log(t)
+const changeLanguage = (e: React.ChangeEvent<HTMLSelectElement>): void => {
+const locale = e.target.value
+console.log(`locale`, locale)
+router.push(asPath, asPath, { locale })
+}
+return (
+<div className="flex min-h-screen flex-col items-center justify-center py-2">
+<Head>
+<title>Create Next App</title>
+<link rel="icon" href="/favicon.ico" />
+</Head>
+<Button />
+<input
+type="text"
+onChange={(e) => setValue(e.target.value)}
+value={value}
+/>
+<select onChange={changeLanguage} value={locale}>
+<option value="en-US">EN</option>
+<option value="th">TH</option>
+</select>
+<main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
+<h1 className="text-6xl font-bold">
+{t.title}
+<a className="text-blue-600" href="https://nextjs.org">
+Next.js!
+</a>
+</h1>
 
         <p className="mt-3 text-2xl">
           Get started by editing{' '}
@@ -80,7 +104,8 @@ const Home: NextPage = () => {
         </a>
       </footer>
     </div>
-  )
+
+)
 }
 
 export default Home
